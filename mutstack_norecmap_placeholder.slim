@@ -7,10 +7,11 @@ defineConstant("seed",getSeed());
 	initializeMutationType("m3", deledom, "s", "return -runif(1,1/(N*2),10/(N*2));");
 	// g1 genomic element type: uses m1 for all mutations
 	initializeMutationType("m4",0.5,"f",0.0);  //dele for males
-	initializeMutationType("m5",0.5,"f",0.0); //dele for females 
+	initializeMutationType("m5",0.5,"f",0.0); //dele for females
+//SA PLACEHOLDERS BEING NEUTRAL 
 c(m4,m5).mutationStackPolicy='f';
 	initializeGenomicElementType("g1", m1, 1.0); 
-		initializeGenomicElement(g1, 0, 99999);	initializeGenomicElementType("g2",c(m1,m2,m3,m4,m5),c(fneu*(1-a),fpos*(1-a),fdel*(1-a),(a/2),(a/2)));
+	initializeGenomicElement(g1, 0, 99999);	initializeGenomicElementType("g2",c(m1,m2,m3,m4,m5),c(fneu*(1-a),fpos*(1-a),fdel*(1-a),(a/2),(a/2)));
 initializeGenomicElement(g2,100000,499999);
 	initializeGenomicElement(g1,500000,599999);
 	initializeRecombinationRate(1e-8);
@@ -42,7 +43,7 @@ mutationEffect(m5) {
 if(community.tick<burnin){
 return 1.0;}
 else{
-return individual.sex=='M' ? 1/effect else effect;
+return individual.sex=='F' ? 1/effect else effect;
 }
 }
 
