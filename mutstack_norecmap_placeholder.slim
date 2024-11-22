@@ -3,8 +3,8 @@ defineConstant("seed",getSeed());
 	initializeMutationRate(1e-7);
 	// m1 mutation type: neutral
 	initializeMutationType("m1", 0.5, "f", 0.0);
-	initializeMutationType("m2", benedom, "s", "return runif(1,1/(N*2),10/(N*2));");
-	initializeMutationType("m3", deledom, "s", "return -runif(1,1/(N*2),10/(N*2));");
+	initializeMutationType("m2", 0.5, "f", benesel);
+	initializeMutationType("m3", 0.5, "f", delesel);
 	// g1 genomic element type: uses m1 for all mutations
 	initializeMutationType("m4",0.5,"f",0.0);  //dele for males
 	initializeMutationType("m5",0.5,"f",0.0); //dele for females
