@@ -57,10 +57,10 @@ initializeRecombinationRate(rates,ends);
 
 // create a population of 500 individuals
 1 early() {
-	sim.addSubpop("p1", N0);	community.rescheduleScriptBlock(s1,start=burnin,end=2000);
+	sim.addSubpop("p1", N);	community.rescheduleScriptBlock(s1,start=burnin,end=2000);
 }
 s1 late(){
-print("add new mut");
+print("m4m5SA");
 males=p1.subsetIndividuals(sex='M');
 males.genomes.mutationsOfType(m4).setValue('dom',sadom);
 males.genomes.mutationsOfType(m4).setSelectionCoeff(sasc);
@@ -69,5 +69,6 @@ females.genomes.mutationsOfType(m5).setValue('dom',sadom);
 females.genomes.mutationsOfType(m5).setSelectionCoeff(sasc);
 }
 2000 late(){
-p1.sampleIndividuals(200).genomes.outputVCF(filePath="/home/kl10g17/spaceness/m4m5SAinonesex_neutral_in_other_"+burninpopsize+"sasc_"+sasc+"sadom_"+sadom+".vcf");
+p1.sampleIndividuals(200).genomes.outputVCF(filePath="/home/kl10g17/spaceness/timema/m4m5SAinonesex_neutral_in_other_N+"+N+"sasc_"+sasc+"sadom_"+sadom+".vcf");
+sim.outputFixedMutations();
 }
