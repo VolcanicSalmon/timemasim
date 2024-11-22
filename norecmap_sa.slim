@@ -1,0 +1,61 @@
+initialize() {
+defineConstant("seed",getSeed());
+	initializeMutationRate(1e-7);
+	// m1 mutation type: neutral
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeMutationType("m2", benedom, "f", benesc);
+	initializeMutationType("m3", deledom, "f", delesc);
+	// g1 genomic element type: uses m1 for all mutations
+	initializeMutationType("m4",sadom,"e", sasc);  //dele for males
+	initializeMutationType("m5",sadom,"e", sasc); //dele for females 
+	initializeGenomicElementType("g1", m1, 1.0); 
+		initializeGenomicElement(g1, 0, 99999);	initializeGenomicElementType("g2",c(m1,m2,m3,m1,m1),mutationMatrix=matrix(c(fneu*(1-a),fpos*(1-a),fdel*(1-a),(a/2),(a/2))));
+initializeGenomicElement(g2,100000,499999);
+	initializeGenomicElement(g1,500000,599999);
+	initializeRecombinationRate(1e-8);
+	initializeSex("A");
+	}
+
+// create a population of 500 individuals
+1 early() {
+	sim.addSubpop("p1",N, sr);
+}
+burnin late(){
+print("add new mut");
+p1.genomes.addNewDrawnMutation(m4,asInteger(runif(1,100000,499999)));
+
+
+}
+mutationEffect(m4) {
+	if(individual.sex=='M'){
+	return 1/effect; 
+	}
+	else{
+	return effect;
+	}
+}
+mutationEffect(m5) {
+	if(individual.sex=='F'){
+	return 1/effect;
+	}
+	else{
+	return effect;
+	}
+}
+
+/*
+burnin:2000 late(){
+malegenomes=sim.subpopulations.individuals[sim.subpopulations.individuals.sex=='M'].genomes;
+femalegenomes=sim.subpopulations.individuals[sim.subpopulations.individuals.sex=='F'].genomes;
+}
+*/
+2000 late(){
+sim.subpopulations.genomes.outputVCF(filePath="/home/kl10g17/spaceness/timema/norecmap_"+"startpop_"+N+"sasc_"+sasc+"sr_"+sr+"seed_"+seed+".vcf");
+sim.outputFixedMutations();
+inds=p1.individuals;
+for(ind in inds){
+cat("ID: "+ind.index+", sex, "+ind.sex+"\n");
+cat("\n");
+}
+sim.simulationFinished();
+}
