@@ -1,0 +1,72 @@
+// set up a simple neutral simulation
+initialize() {
+	initializeMutationRate(1e-7);
+	// m1 mutation type: neutral
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeMutationType("m2", benedom, "f", benesc);
+	initializeMutationType("m3", deledom, "f", delesc);
+	// g1 genomic element type: uses m1 for all mutations
+	initializeMutationType("m4",0.5,"f",0.0);
+	initializeMutationType("m5",0.5,"f",0.0);
+	initializeGenomicElementType("g1", m1, 1.0);	initializeGenomicElementType("g2",c(m1,m2,m3,m4,m5),c(fneu*(1-a),fpos*(1-a),fdel*(1-a),(a/2),(a/2)));
+	if(coordfile=='none'){
+	
+		initializeGenomicElement(g1, 0, 19999);
+initializeGenomicElement(g2,20000,39999);
+	initializeGenomicElement(g1,40000,49999);
+	}
+	else{
+	map=readFile(coordfile);
+	startpos=NULL;
+	endpos=NULL;
+	for(line in map){
+	components=strsplit(line,"\t");
+//genemap formatted as |genetype|0|1|
+	start=c(coords,asInteger(components[1]));
+	end=c(coords,asInteger(components[2]));
+	
+	genetype=c(coords,asInteger(components[0]));
+	
+	if (genetype=='intron')
+	initializeGenomicElement('g1',start,end);
+	if (genetype=='exon')
+	initializeGenomicElement('g2',start,end);
+	
+	}
+	}
+	
+	initializeSex("A");
+	// uniform chromosome of length 100 kb with uniform recombination
+if (recmap=='none'){
+initializeRecombinationRate(1e-8);
+}
+else{
+	recmap=readFile(recmap);
+	ends=NULL;
+	rates=NULL;
+	for(lines in recmap){
+	components=strsplit(line,'\t');
+	ends=c(ends,asInteger(components[0]));
+	rates=c(rates,asFloat(components[1]));
+	}
+initializeRecombinationRate(rates,ends);
+}
+}
+1 early() {
+	sim.addSubpop("p1",N,0.5);	females=p1.individuals[p1.individuals.sex=='F'];
+males=p1.individuals[p1.individuals.sex=='M'];
+}
+burnin+1: early(){
+p1.setSubpopulationSize(necksize);
+}
+
+2000 late(){
+sim.subpopulations.genomes.outputVCF(filePath="bottleneck_1"+"startpop_"+N+"necksize_"+necksize+"sasc_"+sasc+"sadom_"+sadom+"seed_"+seed+".vcf");
+sim.outputFixedMutations();
+inds=p1.individuals;
+for(ind in inds){
+cat("ID: "+ind.index+", sex, "+ind.sex+"\n");
+cat("\n");
+}
+sim.simulationFinished();
+}
