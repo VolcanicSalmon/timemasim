@@ -1,6 +1,8 @@
 // set up a simple neutral simulation
 initialize() {
+defineConstant("seed",getSeed());
 	initializeMutationRate(1e-7);
+
 	// m1 mutation type: neutral
 	initializeMutationType("m1", 0.5, "f", 0.0);
 	initializeMutationType("m2", benedom, "f", benesc);
@@ -58,10 +60,31 @@ males=p1.individuals[p1.individuals.sex=='M'];
 }
 burnin+1: early(){
 p1.setSubpopulationSize(necksize);
+sim.mutationsOfType(m4).setValue("dom",runif(1,0.5,1));
+sim.mutationsOfType(m4).setSelectionCoeff(sasc);
+sim.mutationsOfType(m5).setValue("dom",runif(1,0.5,1));
+sim.mutationsOfType(m5).setSelectionCoeff(-sasc);
+}
+mutationEffect(m4) {
+if(community.tick<burnin){
+return 1.0;}
+else{
+	if(individual.sex=='F')
+	return effect;
+	else
+	return 1/effect;
+	}
+}
+mutationEffect(m5) {
+if(community.tick<burnin){
+return 1.0;}
+else{
+return individual.sex=='M' ? 1/effect else effect;
+}
 }
 
 2000 late(){
-sim.subpopulations.genomes.outputVCF(filePath="bottleneck_1"+"startpop_"+N+"necksize_"+necksize+"sasc_"+sasc+"sadom_"+sadom+"seed_"+seed+".vcf");
+sim.subpopulations.genomes.outputVCF(filePath="bottleneck_1"+"startpop_"+N+"necksize_"+necksize+"sasc_"+sasc+"seed_"+seed+".vcf");
 sim.outputFixedMutations();
 inds=p1.individuals;
 for(ind in inds){
