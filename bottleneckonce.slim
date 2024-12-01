@@ -6,7 +6,9 @@ defineConstant("seed",getSeed());
 	// m1 mutation type: neutral
 	initializeMutationType("m1", 0.5, "f", 0.0);
 	initializeMutationType("m2", benedom, "f", benesc);
+	m2.convertToSubstitution=F;
 	initializeMutationType("m3", deledom, "f", delesc);
+	m3.convertToSubstitution=F;
 	// g1 genomic element type: uses m1 for all mutations
 	initializeMutationType("m4",0.5,"f",0.0);
 	initializeMutationType("m5",0.5,"f",0.0);
@@ -23,7 +25,6 @@ initializeGenomicElement(g2,20000,39999);
 	endpos=NULL;
 	for(line in map){
 	components=strsplit(line,"\t");
-//genemap formatted as |genetype|0|1|
 	start=c(coords,asInteger(components[1]));
 	end=c(coords,asInteger(components[2]));
 	
