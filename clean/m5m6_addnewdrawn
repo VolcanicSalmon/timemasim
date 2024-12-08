@@ -82,7 +82,7 @@ mutationEffect(m6,p1) {
 	return 1-mut.mutationType.dominanceCoeff*mut.selectionCoeff;
 }
 5000 late(){
-p1.sampleIndividuals(200).genomes.outputVCF(filePath="m5m6addnewdrawn"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sasc_"+sasc+"_seed_"+seed+".vcf");
+p1.individuals.genomes.outputVCF(filePath="m5m6addnewdrawn"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sasc_"+sasc+"_seed_"+seed+".vcf");
 sim.outputFixedMutations();
 inds=p1.individuals;
 for(ind in inds){
