@@ -82,12 +82,12 @@ mutationEffect(m6,p1) {
 	return 1-mut.mutationType.dominanceCoeff*mut.selectionCoeff;
 }
 5000 late(){
-sim.subpopulations.genomes.outputVCF(filePath="m5m6addnewdrawn"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sasc_"+sasc+"_seed_"+seed+".vcf");
+sim.subpopulations.genomes.outputVCF(filePath="m5m6addnewdrawn"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sadom_"+sadom+"_sasc_"+sasc+"_seed_"+seed+".vcf");
 sim.outputFixedMutations();
 inds=p1.individuals;
 for(ind in inds){
 indsex=paste(ind.index+"\t"+ind.sex+"\n");
-writeFile("m5m6addnewdrawn"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sasc_"+sasc+"_seed_"+seed+".txt",indsex,append=T);
+writeFile("m5m6addnewdrawn"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sadom_"+sadom+"_sasc_"+sasc+"_seed_"+seed+".txt",indsex,append=T);
 }
 sim.simulationFinished();
 }
