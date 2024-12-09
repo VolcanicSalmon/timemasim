@@ -47,7 +47,7 @@ initializeGenomicElement(g2,20000,39999);
 	}
 	}
 	
-	initializeSex("A");
+	initializeSex(aorx);
 	// uniform chromosome of length 100 kb with uniform recombination
 if (recmap=='none'){
 initializeRecombinationRate(1e-8);
@@ -91,12 +91,12 @@ return individual.sex=='M' ? 1+mut.mutationType.dominanceCoeff*mut.selectionCoef
 
 
 5000 late(){
-sim.subpopulations.genomes.outputVCF("m4m5_safromstart_"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sadom_"+sadom+"_sasc_"+sasc+"_seed_"+seed+".vcf");
+sim.subpopulations.genomes.outputVCF("m4m5_safromstart_"+aorx+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sadom_"+sadom+"_sasc_"+sasc+"_seed_"+seed+".vcf");
 sim.outputFixedMutations();
 inds=p1.individuals;
 for(ind in inds){
 indsex=paste(ind.index+","+ind.sex+"\n");
-writeFile(("m4m5_safromstart_"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sadom_"+sadom+"_sasc_"+sasc+"_seed_"+seed+".txt",indsex,append=T);
+writeFile(("m4m5_safromstart_"+aorx+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sadom_"+sadom+"_sasc_"+sasc+"_seed_"+seed+".txt",indsex,append=T);
 }
 sim.simulationFinished();
 }
