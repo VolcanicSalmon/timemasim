@@ -94,7 +94,7 @@ return individual.sex=='M' ? 1+mut.mutationType.dominanceCoeff*mut.selectionCoef
 }
 
 5000 late(){
-sim.subpopulations.genomes.outputVCF(filePath="bottleneck_1"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sadom"+sadom+"_sasc_"+sasc+"_seed_"+seed+".vcf");
+sim.subpopulations.genomes.outputVCF(filePath="bottleneck_1"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sadom_"+sadom+"_sasc_"+sasc+"_seed_"+seed+".vcf");
 sim.outputFixedMutations();
 inds=p1.individuals;
 for(ind in inds){
