@@ -1,0 +1,86 @@
+initialize() {
+defineConstant("seed",getSeed());
+/*
+defineConstant("benedom",runif(1,0,0.5));
+defineConstant("delemean",runif(1,-1,0));
+defineConstant("benemean",runif(1,0,1));
+defineConstant("deledom",runif(1,0,0.5));
+defineConstant("fneu",runif(1,0,1));
+defineConstant("fdel",runif(1,0,1));
+defineConstant("fpos",runif(1,0,1));
+*/
+	initializeMutationRate(1e-7);
+	// m1 mutation type: neutral
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeMutationType("m2", deledom, "g", delemean,0.1);
+	initializeMutationType("m3", benedom, "e", benemean);
+	// g1 genomic element type: uses m1 for all mutations
+	initializeMutationType("m4",0.5,"f",0.0);
+	initializeMutationType("m5",0.5,"f",0.0);
+	initializeGenomicElementType("g1", m1, 1.0);
+        initializeGenomicElementType("g2",c(m1,m2,m3,m4,m5),c(fneu*(1-a),fpos*(1-a),fdel*(1-a),(a/2),(a/2)));
+	if(coordfile=='none'){
+	
+	initializeGenomicElement(g1, 0, 19999);
+initializeGenomicElement(g2,20000,39999);
+	initializeGenomicElement(g1,40000,49999);
+	}
+	else {
+        start=c();
+        end=c();
+	coord=readFile(coordfile);
+        genetype=NULL;
+	for (line in coord){
+	components=strsplit(line,"\t");
+	genetype=components[0];
+	if (genetype=="intron"){
+	initializeGenomicElement(g1,c(asInteger(components[1])),c(asInteger(components[2])));
+}
+	if (genetype=="exon"){
+	initializeGenomicElement(g2,c(asInteger(components[1])),c(asInteger(components[2])));
+	}
+	}
+	}
+	initializeSex("A");
+	// uniform chromosome of length 100 kb with uniform recombination
+if (recmapfile=='none'){
+initializeRecombinationRate(1e-8);
+}
+else{
+	recmap=readFile(recmapfile);
+	ends=NULL;
+	rates=NULL;
+	for(lines in recmap){
+	components=strsplit(lines,'\t');
+	ends=c(ends,asInteger(components[0]));
+	rates=c(rates,asFloat(components[1])/1000);
+	}
+initializeRecombinationRate(rates,ends);
+}
+
+}
+
+
+// create a population of 500 individuals
+1 early() {
+	sim.addSubpop("p1", N, 0.5);
+}
+burnin late(){
+print("m4m5SA");
+males=p1.subsetIndividuals(sex='M');
+males.genomes.mutationsOfType(m4).setValue('dom',sadom);
+males.genomes.mutationsOfType(m4).setSelectionCoeff(sasc);
+females=p1.subsetIndividuals(sex='F');
+females.genomes.mutationsOfType(m5).setValue('dom',sadom);
+females.genomes.mutationsOfType(m5).setSelectionCoeff(sasc);
+}
+5000 late(){
+p1.sampleIndividuals(200).genomes.outputVCF(filePath="m4m5selinonesex_neutral_in_other_"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sasc_"+sasc+"_seed_"+seed+".vcf");
+sim.outputFixedMutations();
+inds=p1.individuals;
+for(ind in inds){
+indsex=paste(ind.index+","+ind.sex+"\n");
+writeFile("m4m5selinonesex_neutral_in_other_"+"fneu_"+fneu+"_fpos_"+fpos+"_fdel_"+fdel+"_startpop_"+N+"_a_"+a+"_sasc_"+sasc+"_seed_"+seed+".txt",indsex,append=T);
+}
+sim.simulationFinished();
+}
