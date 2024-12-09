@@ -47,7 +47,7 @@ defineConstant("fpos",runif(1,0,1));
 	}
 	}
 	
-	initializeSex("A");
+	initializeSex(aorx);
 	// uniform chromosome of length 100 kb with uniform recombination
 if (recmapfile=='none'){
 initializeRecombinationRate(1e-8);
